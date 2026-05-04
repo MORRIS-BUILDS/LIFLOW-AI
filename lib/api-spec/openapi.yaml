@@ -3,20 +3,31 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Hemansh Manager API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: tasks
+    description: Task/to-do management
+  - name: study
+    description: Study session tracking
+  - name: gym
+    description: Gym workout tracking
+  - name: notes
+    description: Notes management
+  - name: dashboard
+    description: Dashboard summaries and aggregates
+  - name: ai
+    description: AI assistant operations
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +35,522 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ── TASKS ─────────────────────────────────────────────────────────────
+  /tasks:
+    get:
+      operationId: listTasks
+      tags: [tasks]
+      summary: List all tasks
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [Study, Gym, Personal]
+        - name: priority
+          in: query
+          schema:
+            type: string
+            enum: [High, Medium, Low]
+        - name: completed
+          in: query
+          schema:
+            type: boolean
+        - name: date
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      operationId: createTask
+      tags: [tasks]
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTaskBody"
+      responses:
+        "201":
+          description: Created task
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /tasks/{id}:
+    get:
+      operationId: getTask
+      tags: [tasks]
+      summary: Get a task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    patch:
+      operationId: updateTask
+      tags: [tasks]
+      summary: Update a task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTaskBody"
+      responses:
+        "200":
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+    delete:
+      operationId: deleteTask
+      tags: [tasks]
+      summary: Delete a task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── STUDY ─────────────────────────────────────────────────────────────
+  /study/sessions:
+    get:
+      operationId: listStudySessions
+      tags: [study]
+      summary: List study sessions
+      parameters:
+        - name: date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: week
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of study sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StudySession"
+    post:
+      operationId: createStudySession
+      tags: [study]
+      summary: Log a study session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStudySessionBody"
+      responses:
+        "201":
+          description: Created study session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudySession"
+
+  /study/sessions/{id}:
+    patch:
+      operationId: updateStudySession
+      tags: [study]
+      summary: Update a study session
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStudySessionBody"
+      responses:
+        "200":
+          description: Updated session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudySession"
+    delete:
+      operationId: deleteStudySession
+      tags: [study]
+      summary: Delete a study session
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /study/analytics:
+    get:
+      operationId: getStudyAnalytics
+      tags: [study]
+      summary: Study analytics (daily/weekly hours per subject, streak)
+      responses:
+        "200":
+          description: Analytics data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudyAnalytics"
+
+  # ── GYM ───────────────────────────────────────────────────────────────
+  /gym/sessions:
+    get:
+      operationId: listGymSessions
+      tags: [gym]
+      summary: List gym sessions
+      parameters:
+        - name: date
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: List of gym sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GymSession"
+    post:
+      operationId: createGymSession
+      tags: [gym]
+      summary: Log a gym session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateGymSessionBody"
+      responses:
+        "201":
+          description: Created gym session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GymSession"
+
+  /gym/sessions/{id}:
+    patch:
+      operationId: updateGymSession
+      tags: [gym]
+      summary: Update a gym session
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateGymSessionBody"
+      responses:
+        "200":
+          description: Updated session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GymSession"
+    delete:
+      operationId: deleteGymSession
+      tags: [gym]
+      summary: Delete a gym session
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /gym/analytics:
+    get:
+      operationId: getGymAnalytics
+      tags: [gym]
+      summary: Gym analytics (streak, weekly frequency)
+      responses:
+        "200":
+          description: Analytics data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GymAnalytics"
+
+  # ── NOTES ─────────────────────────────────────────────────────────────
+  /notes:
+    get:
+      operationId: listNotes
+      tags: [notes]
+      summary: List notes
+      parameters:
+        - name: tag
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+    post:
+      operationId: createNote
+      tags: [notes]
+      summary: Create a note
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNoteBody"
+      responses:
+        "201":
+          description: Created note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+
+  /notes/{id}:
+    get:
+      operationId: getNote
+      tags: [notes]
+      summary: Get a note
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+    patch:
+      operationId: updateNote
+      tags: [notes]
+      summary: Update a note
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateNoteBody"
+      responses:
+        "200":
+          description: Updated note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+    delete:
+      operationId: deleteNote
+      tags: [notes]
+      summary: Delete a note
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── DASHBOARD ─────────────────────────────────────────────────────────
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Today's summary — tasks, study hours, gym session
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+  /dashboard/motivational-quote:
+    get:
+      operationId: getMotivationalQuote
+      tags: [dashboard]
+      summary: Get today's motivational quote
+      responses:
+        "200":
+          description: Quote
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MotivationalQuote"
+
+  # ── AI ────────────────────────────────────────────────────────────────
+  /ai/conversations:
+    get:
+      operationId: listConversations
+      tags: [ai]
+      summary: List AI conversations
+      responses:
+        "200":
+          description: Conversations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Conversation"
+    post:
+      operationId: createConversation
+      tags: [ai]
+      summary: Create a new AI conversation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateConversationBody"
+      responses:
+        "201":
+          description: Created conversation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversation"
+
+  /ai/conversations/{id}:
+    get:
+      operationId: getConversation
+      tags: [ai]
+      summary: Get a conversation with its messages
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Conversation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationWithMessages"
+    delete:
+      operationId: deleteConversation
+      tags: [ai]
+      summary: Delete a conversation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+
+  /ai/conversations/{id}/messages:
+    post:
+      operationId: sendAiMessage
+      tags: [ai]
+      summary: Send a message in a conversation (streaming SSE)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendAiMessageBody"
+      responses:
+        "200":
+          description: Streaming SSE response
+
+  /ai/suggestions:
+    get:
+      operationId: getAiSuggestions
+      tags: [ai]
+      summary: Get AI-powered productivity suggestions based on current data
+      responses:
+        "200":
+          description: Suggestions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiSuggestions"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +558,430 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    # ── Task ──
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        category:
+          type: string
+          enum: [Study, Gym, Personal]
+        priority:
+          type: string
+          enum: [High, Medium, Low]
+        completed:
+          type: boolean
+        deadline:
+          type: string
+          format: date-time
+          nullable: true
+        date:
+          type: string
+          format: date
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, title, category, priority, completed, createdAt, updatedAt]
+
+    CreateTaskBody:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        category:
+          type: string
+          enum: [Study, Gym, Personal]
+        priority:
+          type: string
+          enum: [High, Medium, Low]
+        deadline:
+          type: string
+          format: date-time
+          nullable: true
+        date:
+          type: string
+          format: date
+          nullable: true
+      required: [title, category, priority]
+
+    UpdateTaskBody:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        category:
+          type: string
+          enum: [Study, Gym, Personal]
+        priority:
+          type: string
+          enum: [High, Medium, Low]
+        completed:
+          type: boolean
+        deadline:
+          type: string
+          format: date-time
+          nullable: true
+        date:
+          type: string
+          format: date
+          nullable: true
+
+    # ── Study ──
+    StudySession:
+      type: object
+      properties:
+        id:
+          type: integer
+        subject:
+          type: string
+        hours:
+          type: number
+        date:
+          type: string
+          format: date
+        notes:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, subject, hours, date, createdAt]
+
+    CreateStudySessionBody:
+      type: object
+      properties:
+        subject:
+          type: string
+        hours:
+          type: number
+        date:
+          type: string
+          format: date
+        notes:
+          type: string
+          nullable: true
+      required: [subject, hours, date]
+
+    UpdateStudySessionBody:
+      type: object
+      properties:
+        subject:
+          type: string
+        hours:
+          type: number
+        date:
+          type: string
+          format: date
+        notes:
+          type: string
+          nullable: true
+
+    StudyAnalytics:
+      type: object
+      properties:
+        currentStreak:
+          type: integer
+        totalHoursThisWeek:
+          type: number
+        totalHoursToday:
+          type: number
+        subjectBreakdown:
+          type: array
+          items:
+            type: object
+            properties:
+              subject:
+                type: string
+              hours:
+                type: number
+            required: [subject, hours]
+        dailyHours:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+              hours:
+                type: number
+            required: [date, hours]
+      required: [currentStreak, totalHoursThisWeek, totalHoursToday, subjectBreakdown, dailyHours]
+
+    # ── Gym ──
+    GymSession:
+      type: object
+      properties:
+        id:
+          type: integer
+        workoutType:
+          type: string
+        exercises:
+          type: array
+          items:
+            $ref: "#/components/schemas/Exercise"
+        date:
+          type: string
+          format: date
+        durationMinutes:
+          type: integer
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, workoutType, exercises, date, createdAt]
+
+    Exercise:
+      type: object
+      properties:
+        name:
+          type: string
+        sets:
+          type: integer
+          nullable: true
+        reps:
+          type: integer
+          nullable: true
+        weight:
+          type: number
+          nullable: true
+      required: [name]
+
+    CreateGymSessionBody:
+      type: object
+      properties:
+        workoutType:
+          type: string
+        exercises:
+          type: array
+          items:
+            $ref: "#/components/schemas/Exercise"
+        date:
+          type: string
+          format: date
+        durationMinutes:
+          type: integer
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+      required: [workoutType, exercises, date]
+
+    UpdateGymSessionBody:
+      type: object
+      properties:
+        workoutType:
+          type: string
+        exercises:
+          type: array
+          items:
+            $ref: "#/components/schemas/Exercise"
+        date:
+          type: string
+          format: date
+        durationMinutes:
+          type: integer
+          nullable: true
+        notes:
+          type: string
+          nullable: true
+
+    GymAnalytics:
+      type: object
+      properties:
+        currentStreak:
+          type: integer
+        sessionsThisWeek:
+          type: integer
+        sessionsThisMonth:
+          type: integer
+        dailyActivity:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+              didWorkout:
+                type: boolean
+            required: [date, didWorkout]
+      required: [currentStreak, sessionsThisWeek, sessionsThisMonth, dailyActivity]
+
+    # ── Notes ──
+    Note:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        content:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, title, content, tags, createdAt, updatedAt]
+
+    CreateNoteBody:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+      required: [title, content]
+
+    UpdateNoteBody:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
+    # ── Dashboard ──
+    DashboardSummary:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        tasksTotal:
+          type: integer
+        tasksCompleted:
+          type: integer
+        studyHoursToday:
+          type: number
+        studyGoalHours:
+          type: number
+        didGymToday:
+          type: boolean
+        gymStreak:
+          type: integer
+        studyStreak:
+          type: integer
+        upcomingTasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+      required: [date, tasksTotal, tasksCompleted, studyHoursToday, studyGoalHours, didGymToday, gymStreak, studyStreak, upcomingTasks]
+
+    MotivationalQuote:
+      type: object
+      properties:
+        quote:
+          type: string
+        author:
+          type: string
+      required: [quote, author]
+
+    # ── AI ──
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, title, createdAt, updatedAt]
+
+    ConversationWithMessages:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/AiMessage"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, title, messages, createdAt, updatedAt]
+
+    AiMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, role, content, createdAt]
+
+    CreateConversationBody:
+      type: object
+      properties:
+        title:
+          type: string
+      required: [title]
+
+    SendAiMessageBody:
+      type: object
+      properties:
+        content:
+          type: string
+      required: [content]
+
+    AiSuggestions:
+      type: object
+      properties:
+        suggestions:
+          type: array
+          items:
+            type: string
+        generatedAt:
+          type: string
+          format: date-time
+      required: [suggestions, generatedAt]
