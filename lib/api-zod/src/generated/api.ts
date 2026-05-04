@@ -307,6 +307,9 @@ export const ListNotesResponseItem = zod.object({
   title: zod.string(),
   content: zod.string(),
   tags: zod.array(zod.string()),
+  color: zod.string().nullish(),
+  font: zod.string().nullish(),
+  imageData: zod.string().nullish(),
   createdAt: zod.coerce.date(),
   updatedAt: zod.coerce.date(),
 });
@@ -319,6 +322,9 @@ export const CreateNoteBody = zod.object({
   title: zod.string(),
   content: zod.string(),
   tags: zod.array(zod.string()).optional(),
+  color: zod.string().optional(),
+  font: zod.string().optional(),
+  imageData: zod.string().optional(),
 });
 
 /**
@@ -333,6 +339,9 @@ export const GetNoteResponse = zod.object({
   title: zod.string(),
   content: zod.string(),
   tags: zod.array(zod.string()),
+  color: zod.string().nullish(),
+  font: zod.string().nullish(),
+  imageData: zod.string().nullish(),
   createdAt: zod.coerce.date(),
   updatedAt: zod.coerce.date(),
 });
@@ -348,6 +357,9 @@ export const UpdateNoteBody = zod.object({
   title: zod.string().optional(),
   content: zod.string().optional(),
   tags: zod.array(zod.string()).optional(),
+  color: zod.string().optional(),
+  font: zod.string().optional(),
+  imageData: zod.string().optional(),
 });
 
 export const UpdateNoteResponse = zod.object({
@@ -355,6 +367,9 @@ export const UpdateNoteResponse = zod.object({
   title: zod.string(),
   content: zod.string(),
   tags: zod.array(zod.string()),
+  color: zod.string().nullish(),
+  font: zod.string().nullish(),
+  imageData: zod.string().nullish(),
   createdAt: zod.coerce.date(),
   updatedAt: zod.coerce.date(),
 });

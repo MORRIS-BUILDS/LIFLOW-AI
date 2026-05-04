@@ -7,6 +7,9 @@ export const notesTable = pgTable("notes", {
   title: text("title").notNull(),
   content: text("content").notNull().default(""),
   tags: text("tags").array().notNull().default([]),
+  color: text("color"),
+  font: text("font"),
+  imageData: text("image_data"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

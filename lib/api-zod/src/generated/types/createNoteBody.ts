@@ -10,4 +10,7 @@ export interface CreateNoteBody {
   title: string;
   content: string;
   tags?: string[];
+  color?: string;
+  font?: string;
+  imageData?: string;
 }

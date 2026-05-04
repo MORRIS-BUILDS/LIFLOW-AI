@@ -11,6 +11,9 @@ export interface Note {
   title: string;
   content: string;
   tags: string[];
+  color?: string | null;
+  font?: string | null;
+  imageData?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

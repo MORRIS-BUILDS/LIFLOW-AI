@@ -35,6 +35,9 @@ router.post("/notes", async (req, res) => {
       title: body.title,
       content: body.content,
       tags: body.tags ?? [],
+      color: (body as any).color ?? null,
+      font: (body as any).font ?? null,
+      imageData: (body as any).imageData ?? null,
     }).returning();
     res.status(201).json(formatNote(note));
   } catch (err) {
@@ -63,6 +66,9 @@ router.patch("/notes/:id", async (req, res) => {
     if (body.title !== undefined) updates.title = body.title;
     if (body.content !== undefined) updates.content = body.content;
     if (body.tags !== undefined) updates.tags = body.tags;
+    if ((body as any).color !== undefined) updates.color = (body as any).color;
+    if ((body as any).font !== undefined) updates.font = (body as any).font;
+    if ((body as any).imageData !== undefined) updates.imageData = (body as any).imageData;
 
     const [note] = await db.update(notesTable).set(updates).where(eq(notesTable.id, id)).returning();
     if (!note) return res.status(404).json({ error: "Note not found" });
@@ -90,6 +96,9 @@ function formatNote(n: typeof notesTable.$inferSelect) {
     title: n.title,
     content: n.content,
     tags: n.tags,
+    color: n.color ?? null,
+    font: n.font ?? null,
+    imageData: n.imageData ?? null,
     createdAt: n.createdAt.toISOString(),
     updatedAt: n.updatedAt.toISOString(),
   };

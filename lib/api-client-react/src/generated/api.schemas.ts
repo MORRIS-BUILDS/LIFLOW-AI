@@ -184,6 +184,9 @@ export interface Note {
   title: string;
   content: string;
   tags: string[];
+  color?: string | null;
+  font?: string | null;
+  imageData?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -192,12 +195,18 @@ export interface CreateNoteBody {
   title: string;
   content: string;
   tags?: string[];
+  color?: string;
+  font?: string;
+  imageData?: string;
 }
 
 export interface UpdateNoteBody {
   title?: string;
   content?: string;
   tags?: string[];
+  color?: string;
+  font?: string;
+  imageData?: string;
 }
 
 export interface DashboardSummary {

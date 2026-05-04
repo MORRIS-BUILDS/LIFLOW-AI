@@ -841,6 +841,15 @@ components:
           type: array
           items:
             type: string
+        color:
+          type: string
+          nullable: true
+        font:
+          type: string
+          nullable: true
+        imageData:
+          type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time
@@ -860,6 +869,12 @@ components:
           type: array
           items:
             type: string
+        color:
+          type: string
+        font:
+          type: string
+        imageData:
+          type: string
       required: [title, content]
 
     UpdateNoteBody:
@@ -873,6 +888,12 @@ components:
           type: array
           items:
             type: string
+        color:
+          type: string
+        font:
+          type: string
+        imageData:
+          type: string
 
     # ── Dashboard ──
     DashboardSummary:
