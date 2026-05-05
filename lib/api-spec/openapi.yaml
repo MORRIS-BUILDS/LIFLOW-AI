@@ -20,6 +20,10 @@ tags:
     description: Notes management
   - name: dashboard
     description: Dashboard summaries and aggregates
+  - name: finance
+    description: Financial tracking (expenses, savings, mutual funds, gold)
+  - name: journal
+    description: Daily journaling
   - name: ai
     description: AI assistant operations
 paths:
@@ -415,6 +419,371 @@ paths:
       operationId: deleteNote
       tags: [notes]
       summary: Delete a note
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── FINANCE ───────────────────────────────────────────────────────────
+  /finance/market:
+    get:
+      operationId: getMarketData
+      tags: [finance]
+      summary: Get live Sensex and Nifty 50 market data
+      responses:
+        "200":
+          description: Market data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketDataResponse"
+
+  /finance/expenses:
+    get:
+      operationId: listExpenses
+      tags: [finance]
+      summary: List all expenses
+      responses:
+        "200":
+          description: List of expenses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Expense"
+    post:
+      operationId: createExpense
+      tags: [finance]
+      summary: Create an expense
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateExpenseBody"
+      responses:
+        "201":
+          description: Created expense
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Expense"
+
+  /finance/expenses/{id}:
+    patch:
+      operationId: updateExpense
+      tags: [finance]
+      summary: Update an expense
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateExpenseBody"
+      responses:
+        "200":
+          description: Updated expense
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Expense"
+    delete:
+      operationId: deleteExpense
+      tags: [finance]
+      summary: Delete an expense
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /finance/savings:
+    get:
+      operationId: listSavings
+      tags: [finance]
+      summary: List all savings entries
+      responses:
+        "200":
+          description: List of savings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Saving"
+    post:
+      operationId: createSaving
+      tags: [finance]
+      summary: Create a saving entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSavingBody"
+      responses:
+        "201":
+          description: Created saving
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Saving"
+
+  /finance/savings/{id}:
+    patch:
+      operationId: updateSaving
+      tags: [finance]
+      summary: Update a saving entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSavingBody"
+      responses:
+        "200":
+          description: Updated saving
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Saving"
+    delete:
+      operationId: deleteSaving
+      tags: [finance]
+      summary: Delete a saving entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /finance/mutual-funds:
+    get:
+      operationId: listMutualFunds
+      tags: [finance]
+      summary: List all mutual fund entries
+      responses:
+        "200":
+          description: List of mutual fund entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MutualFund"
+    post:
+      operationId: createMutualFund
+      tags: [finance]
+      summary: Create a mutual fund entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMutualFundBody"
+      responses:
+        "201":
+          description: Created mutual fund entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MutualFund"
+
+  /finance/mutual-funds/{id}:
+    patch:
+      operationId: updateMutualFund
+      tags: [finance]
+      summary: Update a mutual fund entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateMutualFundBody"
+      responses:
+        "200":
+          description: Updated mutual fund entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MutualFund"
+    delete:
+      operationId: deleteMutualFund
+      tags: [finance]
+      summary: Delete a mutual fund entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /finance/gold:
+    get:
+      operationId: listGold
+      tags: [finance]
+      summary: List all gold entries
+      responses:
+        "200":
+          description: List of gold entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GoldEntry"
+    post:
+      operationId: createGold
+      tags: [finance]
+      summary: Create a gold entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateGoldBody"
+      responses:
+        "201":
+          description: Created gold entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoldEntry"
+
+  /finance/gold/{id}:
+    patch:
+      operationId: updateGold
+      tags: [finance]
+      summary: Update a gold entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateGoldBody"
+      responses:
+        "200":
+          description: Updated gold entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoldEntry"
+    delete:
+      operationId: deleteGold
+      tags: [finance]
+      summary: Delete a gold entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── JOURNAL ───────────────────────────────────────────────────────────
+  /journal/entries:
+    get:
+      operationId: listJournalEntries
+      tags: [journal]
+      summary: List all journal entries
+      responses:
+        "200":
+          description: List of journal entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/JournalEntry"
+    post:
+      operationId: createJournalEntry
+      tags: [journal]
+      summary: Create a journal entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateJournalEntryBody"
+      responses:
+        "201":
+          description: Created journal entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JournalEntry"
+
+  /journal/entries/{id}:
+    patch:
+      operationId: updateJournalEntry
+      tags: [journal]
+      summary: Update a journal entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateJournalEntryBody"
+      responses:
+        "200":
+          description: Updated journal entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JournalEntry"
+    delete:
+      operationId: deleteJournalEntry
+      tags: [journal]
+      summary: Delete a journal entry
       parameters:
         - name: id
           in: path
@@ -1006,3 +1375,264 @@ components:
           type: string
           format: date-time
       required: [suggestions, generatedAt]
+
+    # ── Finance ──
+    Expense:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+        category:
+          type: string
+        note:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, date, amount, category, createdAt]
+
+    CreateExpenseBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+        category:
+          type: string
+        note:
+          type: string
+          nullable: true
+      required: [date, amount, category]
+
+    Saving:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+        label:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, date, amount, label, createdAt]
+
+    CreateSavingBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+        label:
+          type: string
+      required: [date, amount, label]
+
+    MutualFund:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+        fundName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, date, amount, fundName, createdAt]
+
+    CreateMutualFundBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+        fundName:
+          type: string
+      required: [date, amount, fundName]
+
+    GoldEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        amountGrams:
+          type: number
+        pricePerGram:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, date, amountGrams, pricePerGram, createdAt]
+
+    CreateGoldBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        amountGrams:
+          type: number
+        pricePerGram:
+          type: number
+      required: [date, amountGrams, pricePerGram]
+
+    MarketPoint:
+      type: object
+      properties:
+        time:
+          type: string
+        value:
+          type: number
+      required: [time, value]
+
+    MarketIndex:
+      type: object
+      properties:
+        value:
+          type: number
+        change:
+          type: number
+        changePercent:
+          type: number
+        points:
+          type: array
+          items:
+            $ref: "#/components/schemas/MarketPoint"
+      required: [value, change, changePercent, points]
+
+    MarketDataResponse:
+      type: object
+      properties:
+        sensex:
+          $ref: "#/components/schemas/MarketIndex"
+        nifty:
+          $ref: "#/components/schemas/MarketIndex"
+        marketClosed:
+          type: boolean
+        lastUpdated:
+          type: string
+          format: date-time
+      required: [sensex, nifty, marketClosed, lastUpdated]
+
+    UpdateExpenseBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+        category:
+          type: string
+        note:
+          type: string
+          nullable: true
+
+    UpdateSavingBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+        label:
+          type: string
+
+    UpdateMutualFundBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        amount:
+          type: number
+        fundName:
+          type: string
+
+    UpdateGoldBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        amountGrams:
+          type: number
+        pricePerGram:
+          type: number
+
+    # ── Journal ──
+    JournalEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date
+        title:
+          type: string
+        content:
+          type: string
+        mood:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required: [id, date, title, content, createdAt, updatedAt]
+
+    CreateJournalEntryBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        title:
+          type: string
+        content:
+          type: string
+        mood:
+          type: string
+          nullable: true
+      required: [date, title, content]
+
+    UpdateJournalEntryBody:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        title:
+          type: string
+        content:
+          type: string
+        mood:
+          type: string
+          nullable: true

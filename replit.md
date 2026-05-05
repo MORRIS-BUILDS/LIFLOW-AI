@@ -1,8 +1,8 @@
-# Hemansh Manager
+# Morris Manager
 
 ## Overview
 
-A full-stack personal productivity app for students and self-improvement-focused individuals. Combines study tracking, gym tracking, task management, calendar, notes, and an AI assistant.
+A full-stack personal productivity app rebranded as "Morris Manager" / "MORRIS.OS". Combines study tracking, gym tracking, task management, calendar, notes, financial tracking, daily journaling, and an AI assistant.
 
 ## Stack
 
@@ -25,17 +25,19 @@ A full-stack personal productivity app for students and self-improvement-focused
 3. **Calendar** — monthly view with task dots, click a date to see tasks
 4. **Study Tracker** — log sessions by subject/hours, daily/weekly bar charts, streak counter
 5. **Gym Tracker** — log workouts with exercises (sets/reps/weight), streak, activity map
-6. **Notes** — create/edit/delete rich notes with tags and search
-7. **AI Assistant** — streaming SSE chat with GPT-5.4, aware of user data; AI suggestions endpoint
+6. **Finance** — Stock Market (Sensex/Nifty 50 with auto-refresh charts), Daily Spend (log + pie chart), Savings, Mutual Fund, and Gold trackers
+7. **Journal** — daily entries with mood selector, date-organized list view, create/edit/delete
+8. **Notes** — create/edit/delete rich notes with tags and search
+9. **AI Assistant** — streaming SSE chat with GPT-5.4, aware of user data; AI suggestions endpoint
 
 ## Artifacts
 
-- `artifacts/hemansh-manager` — React+Vite frontend at `/`
+- `artifacts/hemansh-manager` — React+Vite frontend at `/` (package name: `@workspace/hemansh-manager`)
 - `artifacts/api-server` — Express API server at `/api`
 
 ## DB Schema
 
-Tables: `tasks`, `study_sessions`, `gym_sessions`, `notes`, `conversations`, `messages`
+Tables: `tasks`, `study_sessions`, `gym_sessions`, `notes`, `conversations`, `messages`, `expenses`, `savings`, `mutual_funds`, `gold`, `journal_entries`
 
 ## Key Commands
 
@@ -55,6 +57,16 @@ Tables: `tasks`, `study_sessions`, `gym_sessions`, `notes`, `conversations`, `me
 - `GET /api/gym/analytics` — streak, weekly/monthly counts, activity map
 - `GET/POST /api/notes` — notes list + create
 - `GET/PATCH/DELETE /api/notes/:id` — note CRUD
+- `GET/POST /api/finance/expenses` — expense list + log
+- `DELETE /api/finance/expenses/:id` — delete expense
+- `GET/POST /api/finance/savings` — savings list + add
+- `DELETE /api/finance/savings/:id` — delete saving
+- `GET/POST /api/finance/mutual-funds` — mutual fund list + add
+- `DELETE /api/finance/mutual-funds/:id` — delete mutual fund entry
+- `GET/POST /api/finance/gold` — gold list + add
+- `DELETE /api/finance/gold/:id` — delete gold entry
+- `GET/POST /api/journal/entries` — journal entry list + create
+- `PATCH/DELETE /api/journal/entries/:id` — journal entry update + delete
 - `GET /api/dashboard/summary` — today's overview
 - `GET /api/dashboard/motivational-quote` — daily quote
 - `GET/POST /api/ai/conversations` — conversation list + create

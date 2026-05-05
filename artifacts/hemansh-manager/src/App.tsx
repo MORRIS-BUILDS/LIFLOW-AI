@@ -12,6 +12,8 @@ import Tasks from "@/pages/tasks";
 import Calendar from "@/pages/calendar";
 import Study from "@/pages/study";
 import Gym from "@/pages/gym";
+import Finance from "@/pages/finance";
+import Journal from "@/pages/journal";
 import Notes from "@/pages/notes";
 import Ai from "@/pages/ai";
 
@@ -33,6 +35,8 @@ function Router() {
         <Route path="/calendar" component={Calendar} />
         <Route path="/study" component={Study} />
         <Route path="/gym" component={Gym} />
+        <Route path="/finance" component={Finance} />
+        <Route path="/journal" component={Journal} />
         <Route path="/notes" component={Notes} />
         <Route path="/ai" component={Ai} />
         <Route component={NotFound} />

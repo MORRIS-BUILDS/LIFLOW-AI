@@ -268,6 +268,132 @@ export interface AiSuggestions {
   generatedAt: string;
 }
 
+export interface Expense {
+  id: number;
+  date: string;
+  amount: number;
+  category: string;
+  note?: string | null;
+  createdAt: string;
+}
+
+export interface CreateExpenseBody {
+  date: string;
+  amount: number;
+  category: string;
+  note?: string | null;
+}
+
+export interface Saving {
+  id: number;
+  date: string;
+  amount: number;
+  label: string;
+  createdAt: string;
+}
+
+export interface CreateSavingBody {
+  date: string;
+  amount: number;
+  label: string;
+}
+
+export interface MutualFund {
+  id: number;
+  date: string;
+  amount: number;
+  fundName: string;
+  createdAt: string;
+}
+
+export interface CreateMutualFundBody {
+  date: string;
+  amount: number;
+  fundName: string;
+}
+
+export interface GoldEntry {
+  id: number;
+  date: string;
+  amountGrams: number;
+  pricePerGram: number;
+  createdAt: string;
+}
+
+export interface CreateGoldBody {
+  date: string;
+  amountGrams: number;
+  pricePerGram: number;
+}
+
+export interface MarketPoint {
+  time: string;
+  value: number;
+}
+
+export interface MarketIndex {
+  value: number;
+  change: number;
+  changePercent: number;
+  points: MarketPoint[];
+}
+
+export interface MarketDataResponse {
+  sensex: MarketIndex;
+  nifty: MarketIndex;
+  marketClosed: boolean;
+  lastUpdated: string;
+}
+
+export interface UpdateExpenseBody {
+  date?: string;
+  amount?: number;
+  category?: string;
+  note?: string | null;
+}
+
+export interface UpdateSavingBody {
+  date?: string;
+  amount?: number;
+  label?: string;
+}
+
+export interface UpdateMutualFundBody {
+  date?: string;
+  amount?: number;
+  fundName?: string;
+}
+
+export interface UpdateGoldBody {
+  date?: string;
+  amountGrams?: number;
+  pricePerGram?: number;
+}
+
+export interface JournalEntry {
+  id: number;
+  date: string;
+  title: string;
+  content: string;
+  mood?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateJournalEntryBody {
+  date: string;
+  title: string;
+  content: string;
+  mood?: string | null;
+}
+
+export interface UpdateJournalEntryBody {
+  date?: string;
+  title?: string;
+  content?: string;
+  mood?: string | null;
+}
+
 export type ListTasksParams = {
   category?: ListTasksCategory;
   priority?: ListTasksPriority;

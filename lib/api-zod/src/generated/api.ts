@@ -382,6 +382,293 @@ export const DeleteNoteParams = zod.object({
 });
 
 /**
+ * @summary Get live Sensex and Nifty 50 market data
+ */
+export const GetMarketDataResponse = zod.object({
+  sensex: zod.object({
+    value: zod.number(),
+    change: zod.number(),
+    changePercent: zod.number(),
+    points: zod.array(
+      zod.object({
+        time: zod.string(),
+        value: zod.number(),
+      }),
+    ),
+  }),
+  nifty: zod.object({
+    value: zod.number(),
+    change: zod.number(),
+    changePercent: zod.number(),
+    points: zod.array(
+      zod.object({
+        time: zod.string(),
+        value: zod.number(),
+      }),
+    ),
+  }),
+  marketClosed: zod.boolean(),
+  lastUpdated: zod.coerce.date(),
+});
+
+/**
+ * @summary List all expenses
+ */
+export const ListExpensesResponseItem = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  amount: zod.number(),
+  category: zod.string(),
+  note: zod.string().nullish(),
+  createdAt: zod.coerce.date(),
+});
+export const ListExpensesResponse = zod.array(ListExpensesResponseItem);
+
+/**
+ * @summary Create an expense
+ */
+export const CreateExpenseBody = zod.object({
+  date: zod.coerce.date(),
+  amount: zod.number(),
+  category: zod.string(),
+  note: zod.string().nullish(),
+});
+
+/**
+ * @summary Update an expense
+ */
+export const UpdateExpenseParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateExpenseBody = zod.object({
+  date: zod.coerce.date().optional(),
+  amount: zod.number().optional(),
+  category: zod.string().optional(),
+  note: zod.string().nullish(),
+});
+
+export const UpdateExpenseResponse = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  amount: zod.number(),
+  category: zod.string(),
+  note: zod.string().nullish(),
+  createdAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Delete an expense
+ */
+export const DeleteExpenseParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+/**
+ * @summary List all savings entries
+ */
+export const ListSavingsResponseItem = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  amount: zod.number(),
+  label: zod.string(),
+  createdAt: zod.coerce.date(),
+});
+export const ListSavingsResponse = zod.array(ListSavingsResponseItem);
+
+/**
+ * @summary Create a saving entry
+ */
+export const CreateSavingBody = zod.object({
+  date: zod.coerce.date(),
+  amount: zod.number(),
+  label: zod.string(),
+});
+
+/**
+ * @summary Update a saving entry
+ */
+export const UpdateSavingParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateSavingBody = zod.object({
+  date: zod.coerce.date().optional(),
+  amount: zod.number().optional(),
+  label: zod.string().optional(),
+});
+
+export const UpdateSavingResponse = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  amount: zod.number(),
+  label: zod.string(),
+  createdAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Delete a saving entry
+ */
+export const DeleteSavingParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+/**
+ * @summary List all mutual fund entries
+ */
+export const ListMutualFundsResponseItem = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  amount: zod.number(),
+  fundName: zod.string(),
+  createdAt: zod.coerce.date(),
+});
+export const ListMutualFundsResponse = zod.array(ListMutualFundsResponseItem);
+
+/**
+ * @summary Create a mutual fund entry
+ */
+export const CreateMutualFundBody = zod.object({
+  date: zod.coerce.date(),
+  amount: zod.number(),
+  fundName: zod.string(),
+});
+
+/**
+ * @summary Update a mutual fund entry
+ */
+export const UpdateMutualFundParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateMutualFundBody = zod.object({
+  date: zod.coerce.date().optional(),
+  amount: zod.number().optional(),
+  fundName: zod.string().optional(),
+});
+
+export const UpdateMutualFundResponse = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  amount: zod.number(),
+  fundName: zod.string(),
+  createdAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Delete a mutual fund entry
+ */
+export const DeleteMutualFundParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+/**
+ * @summary List all gold entries
+ */
+export const ListGoldResponseItem = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  amountGrams: zod.number(),
+  pricePerGram: zod.number(),
+  createdAt: zod.coerce.date(),
+});
+export const ListGoldResponse = zod.array(ListGoldResponseItem);
+
+/**
+ * @summary Create a gold entry
+ */
+export const CreateGoldBody = zod.object({
+  date: zod.coerce.date(),
+  amountGrams: zod.number(),
+  pricePerGram: zod.number(),
+});
+
+/**
+ * @summary Update a gold entry
+ */
+export const UpdateGoldParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateGoldBody = zod.object({
+  date: zod.coerce.date().optional(),
+  amountGrams: zod.number().optional(),
+  pricePerGram: zod.number().optional(),
+});
+
+export const UpdateGoldResponse = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  amountGrams: zod.number(),
+  pricePerGram: zod.number(),
+  createdAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Delete a gold entry
+ */
+export const DeleteGoldParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+/**
+ * @summary List all journal entries
+ */
+export const ListJournalEntriesResponseItem = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  title: zod.string(),
+  content: zod.string(),
+  mood: zod.string().nullish(),
+  createdAt: zod.coerce.date(),
+  updatedAt: zod.coerce.date(),
+});
+export const ListJournalEntriesResponse = zod.array(
+  ListJournalEntriesResponseItem,
+);
+
+/**
+ * @summary Create a journal entry
+ */
+export const CreateJournalEntryBody = zod.object({
+  date: zod.coerce.date(),
+  title: zod.string(),
+  content: zod.string(),
+  mood: zod.string().nullish(),
+});
+
+/**
+ * @summary Update a journal entry
+ */
+export const UpdateJournalEntryParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateJournalEntryBody = zod.object({
+  date: zod.coerce.date().optional(),
+  title: zod.string().optional(),
+  content: zod.string().optional(),
+  mood: zod.string().nullish(),
+});
+
+export const UpdateJournalEntryResponse = zod.object({
+  id: zod.number(),
+  date: zod.coerce.date(),
+  title: zod.string(),
+  content: zod.string(),
+  mood: zod.string().nullish(),
+  createdAt: zod.coerce.date(),
+  updatedAt: zod.coerce.date(),
+});
+
+/**
+ * @summary Delete a journal entry
+ */
+export const DeleteJournalEntryParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+/**
  * @summary Today's summary — tasks, study hours, gym session
  */
 export const GetDashboardSummaryResponse = zod.object({

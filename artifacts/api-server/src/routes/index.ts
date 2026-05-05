@@ -4,6 +4,8 @@ import tasksRouter from "./tasks";
 import studyRouter from "./study";
 import gymRouter from "./gym";
 import notesRouter from "./notes";
+import financeRouter from "./finance";
+import journalRouter from "./journal";
 import dashboardRouter from "./dashboard";
 import aiRouter from "./ai";
 
@@ -14,6 +16,8 @@ router.use(tasksRouter);
 router.use(studyRouter);
 router.use(gymRouter);
 router.use(notesRouter);
+router.use(financeRouter);
+router.use(journalRouter);
 router.use(dashboardRouter);
 router.use(aiRouter);
 

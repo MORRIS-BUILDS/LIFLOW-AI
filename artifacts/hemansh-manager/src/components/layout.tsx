@@ -18,6 +18,8 @@ import {
   BellOff,
   Clock,
   AlertTriangle,
+  TrendingUp,
+  NotebookPen,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNotifications } from "@/hooks/useNotifications";
@@ -29,6 +31,8 @@ const sidebarItems = [
   { name: "Calendar", href: "/calendar", icon: CalendarDays },
   { name: "Study", href: "/study", icon: BookOpen },
   { name: "Gym", href: "/gym", icon: Dumbbell },
+  { name: "Finance", href: "/finance", icon: TrendingUp },
+  { name: "Journal", href: "/journal", icon: NotebookPen },
   { name: "Notes", href: "/notes", icon: StickyNote },
   { name: "AI Assistant", href: "/ai", icon: Bot },
 ];
@@ -124,7 +128,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex h-full flex-col bg-sidebar border-r border-sidebar-border">
       <div className="p-5 flex items-center justify-between">
         <h2 className="text-xl font-bold tracking-tighter text-sidebar-foreground">
-          HEMANSH<span className="text-primary">.OS</span>
+          MORRIS<span className="text-primary">.OS</span>
         </h2>
         <NotificationBell />
       </div>

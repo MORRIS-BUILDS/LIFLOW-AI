@@ -4,3 +4,8 @@ export * from "./tasks";
 export * from "./study_sessions";
 export * from "./gym_sessions";
 export * from "./notes";
+export * from "./expenses";
+export * from "./savings";
+export * from "./mutual_funds";
+export * from "./gold";
+export * from "./journal_entries";
